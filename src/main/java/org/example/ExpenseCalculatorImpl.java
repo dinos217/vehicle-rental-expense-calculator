@@ -4,6 +4,7 @@ import org.example.enums.FuelType;
 import org.example.enums.VehicleType;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class ExpenseCalculatorImpl implements ExpenseCalculator {
 
@@ -45,11 +46,11 @@ public class ExpenseCalculatorImpl implements ExpenseCalculator {
             cost = cost.multiply(BUS_PRICE);
         }
 
-        return cost;
+        return cost.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     private BigDecimal getCostForExtraPeople(VehicleType vehicleType, Integer numberOfPeopleTravelling,
-                                                    BigDecimal distance) {
+                                             BigDecimal distance) {
 
         int extraPeople = 0;
 
