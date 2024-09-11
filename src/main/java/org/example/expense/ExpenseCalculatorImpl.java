@@ -1,5 +1,6 @@
-package org.example;
+package org.example.expense;
 
+import org.example.locations.DistanceService;
 import org.example.enums.FuelType;
 import org.example.enums.VehicleType;
 
