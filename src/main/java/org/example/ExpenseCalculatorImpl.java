@@ -37,7 +37,7 @@ public class ExpenseCalculatorImpl implements ExpenseCalculator {
             cost = cost.add(AC_COST_PER_KM.multiply(distance));
         }
 
-        if (numberOfPeopleTravelling > 5) {
+        if (numberOfPeopleTravelling > vehicleType.getMacCapacity()) {
             BigDecimal costForExtraPeople = getCostForExtraPeople(vehicleType, numberOfPeopleTravelling, distance);
             cost = cost.add(costForExtraPeople);
         }
@@ -52,15 +52,8 @@ public class ExpenseCalculatorImpl implements ExpenseCalculator {
     private BigDecimal getCostForExtraPeople(VehicleType vehicleType, Integer numberOfPeopleTravelling,
                                              BigDecimal distance) {
 
-        int extraPeople = 0;
-
-        if (vehicleType == VehicleType.CAR || vehicleType == VehicleType.SUV) {
-            extraPeople = numberOfPeopleTravelling - VehicleType.CAR.getMacCapacity();
-        } else if (numberOfPeopleTravelling > VehicleType.VAN.getMacCapacity() && vehicleType == VehicleType.VAN) {
-            extraPeople = numberOfPeopleTravelling - VehicleType.VAN.getMacCapacity();
-        } else if (numberOfPeopleTravelling > VehicleType.BUS.getMacCapacity() && vehicleType == VehicleType.BUS) {
-            extraPeople = numberOfPeopleTravelling - VehicleType.BUS.getMacCapacity();
-        }
+        int maxCapacity = vehicleType.getMacCapacity();
+        int extraPeople = numberOfPeopleTravelling - maxCapacity;
 
         return COST_FOR_EXTRA_PERSON.multiply(distance).multiply(new BigDecimal(extraPeople));
     }

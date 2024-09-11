@@ -103,11 +103,25 @@ public class ExpenseCalculatorTest {
                 7, true);
 
         // maximum capacity of SUV is 5 people
-
         BigDecimal costForExtraPeople = COST_PER_EXTRA_PERSON.multiply(DISTANCE_TO_MUNICH)
                 .multiply(new BigDecimal(2));
 
         assertThat(cost).isEqualTo(DISTANCE_TO_MUNICH.multiply(PETROL_AC_COST_PER_KM).add(costForExtraPeople)
+                .setScale(2, RoundingMode.HALF_EVEN));
+    }
+
+    @Test
+    void testCostForVanDieselWithACAndExtraPeople() {
+        when(distanceService.getDistanceFromBerlin("Munich")).thenReturn(584);
+
+        BigDecimal cost = expenseCalculator.calculateExpense(VehicleType.VAN, FuelType.DIESEL, "Munich",
+                13, true);
+
+        // maximum capacity of van is 9 people
+        BigDecimal costForExtraPeople = COST_PER_EXTRA_PERSON.multiply(DISTANCE_TO_MUNICH)
+                .multiply(new BigDecimal(4));
+
+        assertThat(cost).isEqualTo(DISTANCE_TO_MUNICH.multiply(DIESEL_AC_COST_PER_KM).add(costForExtraPeople)
                 .setScale(2, RoundingMode.HALF_EVEN));
     }
 
@@ -119,7 +133,6 @@ public class ExpenseCalculatorTest {
                 40, true);
 
         // maximum capacity of bus is 35 people
-
         BigDecimal costForExtraPeople = COST_PER_EXTRA_PERSON.multiply(DISTANCE_TO_MUNICH)
                 .multiply(new BigDecimal(5));
 
